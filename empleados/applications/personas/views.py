@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView
+from django.urls import reverse_lazy
+
 from .models import *
 # Create your views here.
 
@@ -40,6 +42,56 @@ class ListHabilidadesEmpleado(ListView):
     def get_queryset(self):
         empleado = Empleado.objects.get(id=1)
         return empleado.habilidades.all()
+
+
+class EmpleadoDetailView(DetailView):
+    model = Empleado
+    template_name = "personas/detail_empleado.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(EmpleadoDetailView, self).get_context_data(**kwargs)
+        context['titulo'] = 'Empleado del mes'
+
+        return context
+
+class SuccessView(TemplateView):
+    template_name = 'personas/success.html'
+
+class EmpleadoCreateView(CreateView):
+    model = Empleado
+    template_name = 'personas/add.html'
+    fields = [
+        'first_name',
+        'last_name',
+        'job',
+        'departamento',
+        'habilidades',
+    ]
+    success_url = reverse_lazy('personas_app:correcto')
+
+    def form_valid(self, form):
+        empleado = form.save(commit=False)
+        empleado.full_name = empleado.first_name + ' ' + empleado.last_name
+        empleado.save()
+        return super(EmpleadoCreateView, self).form_valid(form)
+
+
+class EmpleadoUpdateView(UpdateView):
+    model = Empleado
+    template_name = 'personas/update.html'
+    fields = [
+        'first_name',
+        'last_name',
+        'job',
+        'departamento',
+        'habilidades',
+    ]
+    success_url = reverse_lazy('personas_app:correcto')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        print(request.POST)
+        return super().post(request, *args, **kwargs)
 
 # class ListByTrabajoEmpleado(ListView):
 #     """ lista empleados de un area """
