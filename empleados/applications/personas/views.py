@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 from .models import *
@@ -92,6 +92,12 @@ class EmpleadoUpdateView(UpdateView):
         self.object = self.get_object()
         print(request.POST)
         return super().post(request, *args, **kwargs)
+
+class EmpleadoDeleteView(DeleteView):
+    model =  Empleado
+    template_name = 'personas/delete.html'
+    success_url = reverse_lazy('personas_app:correcto')
+    
 
 # class ListByTrabajoEmpleado(ListView):
 #     """ lista empleados de un area """
