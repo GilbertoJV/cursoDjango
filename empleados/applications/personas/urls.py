@@ -4,6 +4,9 @@ from . import views
 app_name = 'personas_app'
 
 urlpatterns = [
+    path('', views.InicioView.as_view(), name='inicio'),
+
+
     path('api/getAllEmpleados/', views.ListAllEmpleados.as_view()),
     path('api/listByArea/<short_name>', views.ListByAreaEmpleado.as_view()),
     #path('api/listByArea/<var_job>', views.ListByTrabajoEmpleado.as_view()),

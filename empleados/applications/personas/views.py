@@ -5,6 +5,9 @@ from .models import *
 
 # Create your views here.
 
+class InicioView(TemplateView):
+    template_name = 'inicio.html'
+
 class ListAllEmpleados(ListView):
     template_name = 'personas/list_all.html'
     paginate_by = 4

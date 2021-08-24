@@ -1,8 +1,6 @@
 from django.urls import path
-
-def DesdeApss(self):
-    print('==============DESDE APP DEPARTAMENTO================')
+from . import views
 
 urlpatterns = [
-    path('departamento/', DesdeApss),
+    path('new_departamento/', views.NewDepartamento.as_view(), name='nuevo_departamento'),
 ]

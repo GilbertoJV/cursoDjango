@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, CreateView
 from .models import *
+from .forms import *
 
 # Create your views here.
 
@@ -21,4 +22,5 @@ class ListarPrueba(ListView):
 class PruebaCreateView(CreateView):
     template_name = "home/add.html"
     model = Prueba
-    fields = ['titulo', 'subtitulo', 'cantidad']
+    form_class = PruebaForm
+    succes_url = '/'

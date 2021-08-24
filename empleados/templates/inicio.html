@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %} Pagina inicio sistema empleados {% endblock title %}
+
+{% block content %}
+
+{% include 'includes/header.html' %}
+
+{% load static %}
+
+<!-- inicio de la imagen de portada -->
+<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
+    <div class="orbit-wrapper">
+      <div class="orbit-controls">
+        <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
+        <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+      </div>
+      <ul class="orbit-container">
+        <li class="is-active orbit-slide">
+          <figure class="orbit-figure">
+            <img class="orbit-image" src="{% static 'img/BANNER_CATALOGO.png' %}" alt="Space">
+            <figcaption class="orbit-caption">STB GALAXIA!.</figcaption>
+          </figure>
+        </li>
+        <li class="orbit-slide">
+          <figure class="orbit-figure">
+            <img class="orbit-image" src="{% static 'img/BANNER_CATALOGOS.png' %}" alt="Space">
+            <figcaption class="orbit-caption">Mas allá del limite!</figcaption>
+          </figure>
+        </li>
+      </ul>
+    </div>
+  </div>
+<!-- fin de imagen de portada -->
+
+<!-- bloque de bienvenida -->
+
+<div class="grid-x align-center">
+    <h1 class="cell large-8" style="font-size: 30px; text-align: center;">BIENVENIDO AL SISTEMA DE REGISTRO DE EMPLEADOS</h1>
+    <div class="cell large-7">
+        <div class="callout success">
+            <h5>Registro y control de empleados</h5>
+            <p>Esta página te ayudará a tener un mejor control de empleados.</p>
+            <a href="#">Ver empleados</a>
+          </div>
+    </div>
+</div>
+
+<!-- fin de bloque de bienvenida -->
+
+{% endblock content %}
