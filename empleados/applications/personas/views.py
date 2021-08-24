@@ -12,7 +12,14 @@ class ListAllEmpleados(ListView):
     template_name = 'personas/list_all.html'
     paginate_by = 4
     ordering = 'first_name'
-    model = Empleado
+    context_object_name = 'empleados'
+
+    def get_queryset(self):
+        palabra_clave = self.request.GET.get("kword", '')
+        lista = Empleado.objects.filter(
+            full_name__icontains=palabra_clave
+        )
+        return lista
 
 class ListByAreaEmpleado(ListView):
     """ lista empleados de un area """
