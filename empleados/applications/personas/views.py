@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import *
+from .forms import *
 
 # Create your views here.
 
 class InicioView(TemplateView):
     template_name = 'inicio.html'
+
 
 class ListAllEmpleados(ListView):
     template_name = 'personas/list_all.html'
@@ -21,10 +23,19 @@ class ListAllEmpleados(ListView):
         )
         return lista
 
+
+class ListEmpleadosAdmin(ListView):
+    template_name = 'personas/lista_empleados.html'
+    paginate_by = 10
+    ordering = 'first_name'
+    context_object_name = 'empleados'
+    model = Empleado
+
+
 class ListByAreaEmpleado(ListView):
     """ lista empleados de un area """
     template_name = 'personas/list_by_area.html'
-    model = Empleado
+    context_object_name = 'empleados'
 
     def get_queryset(self):
         area = self.kwargs['short_name']
@@ -32,6 +43,7 @@ class ListByAreaEmpleado(ListView):
             departamento__short_name=area
         )
         return lista
+
 
 class ListEmpleadoByKword(ListView):
     """ lista empleado por palabra clave"""
@@ -44,6 +56,7 @@ class ListEmpleadoByKword(ListView):
             first_name=palabra_clave
         )
         return lista
+
 
 class ListHabilidadesEmpleado(ListView):
     template_name = 'personas/habilidades.html'
@@ -64,20 +77,16 @@ class EmpleadoDetailView(DetailView):
 
         return context
 
+
 class SuccessView(TemplateView):
     template_name = 'personas/success.html'
+
 
 class EmpleadoCreateView(CreateView):
     model = Empleado
     template_name = 'personas/add.html'
-    fields = [
-        'first_name',
-        'last_name',
-        'job',
-        'departamento',
-        'habilidades',
-    ]
-    success_url = reverse_lazy('personas_app:correcto')
+    form_class = EmpleadoForm
+    success_url = reverse_lazy('personas_app:empleados_admin')
 
     def form_valid(self, form):
         empleado = form.save(commit=False)
@@ -96,28 +105,15 @@ class EmpleadoUpdateView(UpdateView):
         'departamento',
         'habilidades',
     ]
-    success_url = reverse_lazy('personas_app:correcto')
+    success_url = reverse_lazy('personas_app:empleados_admin')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         print(request.POST)
         return super().post(request, *args, **kwargs)
 
+
 class EmpleadoDeleteView(DeleteView):
     model =  Empleado
     template_name = 'personas/delete.html'
-    success_url = reverse_lazy('personas_app:correcto')
-    
-
-# class ListByTrabajoEmpleado(ListView):
-#     """ lista empleados de un area """
-#     template_name = 'personas/list_by_trabajo.html'
-#     model = Empleado
-
-#     def get_queryset(self):
-#         trabajo = self.kwargs['var_job']
-#         print(f"-----------------{trabajo}")
-#         lista = Empleado.objects.filter(
-#             job=trabajo
-#         )
-#         return lista
+    success_url = reverse_lazy('personas_app:empleados_admin')

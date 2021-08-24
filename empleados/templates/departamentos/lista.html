@@ -21,7 +21,7 @@
                                 {{ departamento.short_name }}
                             </td>
                             <td>
-                                <a class="button warning" href="#">VER EMPLEADOS</a>
+                                <a class="button warning" href="{% url 'personas_app:empleados_area' departamento.short_name %}">VER EMPLEADOS</a>
                             </td>
                         </tr>
                         {% endfor %}
